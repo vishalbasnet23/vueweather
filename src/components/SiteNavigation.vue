@@ -53,7 +53,6 @@
 </template>
 
 <script>
-import { RouterLink } from "vue-router";
 import BaseModal from "./BaseModal.vue";
 import { ref } from "vue";
 export default {

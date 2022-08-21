@@ -26,6 +26,7 @@
 
 <script>
 export default {
+  emits: ["close-modal"],
   props: {
     modalActive: {
       type: Boolean,

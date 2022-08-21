@@ -23,6 +23,7 @@
             v-for="(searchResultValue, searchResultKey) in searchResults"
             :key="searchResultKey"
             class="py-2 cursor-pointer"
+            @click="previewCity(searchResultValue)"
           >
             {{ searchResultValue }}
           </li>
@@ -34,8 +35,10 @@
 <script>
 import { ref } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
 export default {
   setup() {
+    const router = useRouter();
     const searchQuery = ref("");
     const searchResults = ref(null);
     const queryTimeOut = ref(null);
@@ -59,7 +62,23 @@ export default {
         searchResults.value = null;
       }, 300);
     }
-    return { getSearchResults, searchQuery, searchResults, searchError };
+    function previewCity(searchResult) {
+      const [city, state] = searchResult.split(",");
+      router.push({
+        name: "city",
+        params: { state: state.trim(), city: city.trim() },
+        query: {
+          preview: true,
+        },
+      });
+    }
+    return {
+      getSearchResults,
+      searchQuery,
+      searchResults,
+      searchError,
+      previewCity,
+    };
   },
 };
 </script>
