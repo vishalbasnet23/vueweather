@@ -25,7 +25,7 @@
             class="py-2 cursor-pointer"
             @click="previewCity(searchResultValue)"
           >
-            {{ searchResultValue }}
+            {{ searchResultValue.label }}
           </li>
         </template>
       </ul>
@@ -51,8 +51,7 @@ export default {
             const result = await axios.get(
               `http://api.positionstack.com/v1/forward?access_key=71c87c2d5233412bc09bd8e2b61c8e8e&query=${searchQuery.value}&fields=results.label`
             );
-            const allLabels = result.data.data.map((obj) => obj.label);
-            searchResults.value = [...new Set(allLabels)];
+            searchResults.value = result.data.data;
             searchError.value = null;
           } catch (error) {
             searchError.value = true;
@@ -62,13 +61,15 @@ export default {
         searchResults.value = null;
       }, 300);
     }
-    function previewCity(searchResult) {
-      const [city, state] = searchResult.split(",");
+    function previewCity(selectedResult) {
+      const [city, state] = selectedResult.label.split(",");
       router.push({
         name: "city",
         params: { state: state.trim(), city: city.trim() },
         query: {
           preview: true,
+          lat: selectedResult.latitude,
+          lon: selectedResult.longitude,
         },
       });
     }

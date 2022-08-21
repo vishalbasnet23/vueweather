@@ -33,9 +33,7 @@ export default {
       default: false,
     },
   },
-  setup(props) {
-    console.log(props);
-  },
+  setup() {},
 };
 </script>
 
