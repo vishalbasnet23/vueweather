@@ -12,12 +12,21 @@
         class="absolute bg-secondary text-white w-full shadow-md py-2 px-1 top-[66px]"
         v-if="searchResults"
       >
-        <li
-          v-for="(searchResultValue, searchResultKey) in searchResults"
-          :key="searchResultKey"
-        >
-          {{ searchResultValue }}
-        </li>
+        <p class="py-2" v-if="searchError">
+          Sorry, something went wrong, please try again
+        </p>
+        <p class="py-2" v-if="!searchError && searchResults.length === 0">
+          No results match your query, try a different term.
+        </p>
+        <template v-else>
+          <li
+            v-for="(searchResultValue, searchResultKey) in searchResults"
+            :key="searchResultKey"
+            class="py-2 cursor-pointer"
+          >
+            {{ searchResultValue }}
+          </li>
+        </template>
       </ul>
     </div>
   </main>
@@ -30,21 +39,27 @@ export default {
     const searchQuery = ref("");
     const searchResults = ref(null);
     const queryTimeOut = ref(null);
+    const searchError = ref(null);
     function getSearchResults() {
       clearTimeout(queryTimeOut.value);
       queryTimeOut.value = setTimeout(async () => {
         if (searchQuery.value !== "") {
-          const result = await axios.get(
-            `http://api.positionstack.com/v1/forward?access_key=71c87c2d5233412bc09bd8e2b61c8e8e&query=${searchQuery.value}&fields=results.label`
-          );
-          const allLabels = result.data.data.map((obj) => obj.label);
-          searchResults.value = [...new Set(allLabels)];
+          try {
+            const result = await axios.get(
+              `http://api.positionstack.com/v1/forward?access_key=71c87c2d5233412bc09bd8e2b61c8e8e&query=${searchQuery.value}&fields=results.label`
+            );
+            const allLabels = result.data.data.map((obj) => obj.label);
+            searchResults.value = [...new Set(allLabels)];
+            searchError.value = null;
+          } catch (error) {
+            searchError.value = true;
+          }
           return;
         }
         searchResults.value = null;
       }, 300);
     }
-    return { getSearchResults, searchQuery, searchResults };
+    return { getSearchResults, searchQuery, searchResults, searchError };
   },
 };
 </script>
