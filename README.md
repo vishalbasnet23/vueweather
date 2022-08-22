@@ -1,6 +1,15 @@
 # weatherapp
 
-This template should help get you started developing with Vue 3 in Vite.
+Weather Application built with Vue Composition API and Tailwind CSS.
+Weather Data is fetched from [open-meteo](https://open-meteo.com) as they do not require any API Keys or anything and provide all sort of weather data.
+
+Weather Icons used is by [Erikflowers](https://erikflowers.github.io/weather-icons/). Which I am actually planning on replacing with more colorful SVG Icons.
+
+## Todo
+- [ ] Replace icons with more colorful icons
+- [ ] Integrate Pinia
+- [ ] PWA
+- [ ] Complete rewrite in TypeScript
 
 ## Recommended IDE Setup
 
