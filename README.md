@@ -1,9 +1,10 @@
 # weatherapp
 
-Weather Application built with Vue Composition API and Tailwind CSS.
+* Weather Application built with Vue Composition API and Tailwind CSS.
 Weather Data is fetched from [open-meteo](https://open-meteo.com) as they do not require any API Keys or anything and provide all sort of weather data.
+* City Dropdown is fetched from [Postionstack](https://positionstack.com/documentation) Forward Geocoding API which doesn't require your credit card numbers unlike Google Location API. 
 
-Weather Icons used is by [Erikflowers](https://erikflowers.github.io/weather-icons/). Which I am actually planning on replacing with more colorful SVG Icons.
+* Weather Icons used is by [Erikflowers](https://erikflowers.github.io/weather-icons/). Which I am actually planning on replacing with more colorful SVG Icons.
 
 ## Todo
 - [ ] Replace icons with more colorful icons
