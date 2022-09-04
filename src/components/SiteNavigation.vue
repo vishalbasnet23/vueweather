@@ -15,6 +15,7 @@
           class="fa-solid fa-circle-info text-xl hover:text-secondary duration-150 cursor-pointer"
         />
         <i
+          @click="addCity"
           class="fa-solid fa-plus text-xl hover:text-secondary duration-150 cursor-pointer"
         />
       </div>
@@ -54,14 +55,42 @@
 
 <script>
 import BaseModal from "./BaseModal.vue";
+import { uid } from "uid";
 import { ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 export default {
   setup() {
     const modalActive = ref(null);
+    const savedCities = ref([]);
+    const route = useRoute();
+    const router = useRouter();
     function toggleModal() {
       modalActive.value = !modalActive.value;
     }
-    return { modalActive, toggleModal };
+    const localStorageSavedCities = localStorage.getItem("savedCities");
+
+    function addCity() {
+      if (localStorageSavedCities) {
+        savedCities.value = JSON.parse(localStorageSavedCities);
+      }
+
+      const locationObj = {
+        id: uid(),
+        state: route.params.state,
+        city: route.params.city,
+        cords: {
+          lat: route.query.lat,
+          lon: route.query.lon,
+        },
+      };
+      savedCities.value.push(locationObj);
+      localStorage.setItem("savedCities", JSON.stringify(savedCities.value));
+
+      let query = Object.assign({}, route.query);
+      delete query.preview;
+      router.replace({ query });
+    }
+    return { modalActive, toggleModal, addCity };
   },
   components: { BaseModal },
 };

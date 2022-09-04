@@ -68,10 +68,10 @@
             <p class="text">
               {{
                 Math.round(weatherData.data.daily.temperature_2m_min[timeKey])
-              }}&deg -
+              }}&deg; -
               {{
                 Math.round(weatherData.data.daily.temperature_2m_max[timeKey])
-              }}&deg
+              }}&deg;
             </p>
           </div>
         </div>
