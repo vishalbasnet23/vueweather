@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center">
     <div
-      v-if="preview === 'yes'"
+      v-if="route.query.preview === 'yes'"
       class="text-white p-4 bg-secondary w-full text-center"
     >
       <p>
@@ -88,7 +88,7 @@ export default {
   async setup() {
     const route = useRoute();
     const TIMEZONE = "Asia/Kathmandu";
-    const { lat, lon, preview } = route.query;
+    const { lat, lon } = route.query;
     const { city, state } = route.params;
     const getWeatherDesc = (code) => {
       switch (true) {
@@ -172,7 +172,7 @@ export default {
 
     return {
       weatherData,
-      preview,
+      route,
       city,
       state,
       weatherCode,

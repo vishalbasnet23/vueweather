@@ -67,7 +67,7 @@ export default {
         name: "city",
         params: { state: state.trim(), city: city.trim() },
         query: {
-          preview: 'yes',
+          preview: "yes",
           lat: selectedResult.latitude,
           lon: selectedResult.longitude,
         },
