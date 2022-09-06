@@ -55,7 +55,7 @@
 
 <script>
 import BaseModal from "./BaseModal.vue";
-import { uid } from "uid";
+import { getUid } from "../methods/utils";
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 export default {
@@ -73,9 +73,10 @@ export default {
       if (localStorageSavedCities) {
         savedCities.value = JSON.parse(localStorageSavedCities);
       }
+      const uniqueId = getUid(route.query.lat, route.query.lon);
 
       const locationObj = {
-        id: uid(),
+        id: uniqueId,
         state: route.params.state,
         city: route.params.city,
         cords: {
@@ -85,7 +86,7 @@ export default {
       };
       savedCities.value.push(locationObj);
       localStorage.setItem("savedCities", JSON.stringify(savedCities.value));
-
+      route.query.id = uniqueId;
       let query = Object.assign({}, route.query);
       delete query.preview;
       router.replace({ query });

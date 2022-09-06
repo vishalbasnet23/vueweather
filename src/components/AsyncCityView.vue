@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center">
     <div
-      v-if="route.query.preview === 'yes'"
+      v-if="!isAlreadySaved"
       class="text-white p-4 bg-secondary w-full text-center"
     >
       <p>
@@ -77,13 +77,21 @@
         </div>
       </div>
     </div>
+    <div
+      class="flex items-center gap-2 py-12 text-white cursor-pointer duration-150 hover:text-red-500"
+      @click="removeCity"
+      v-if="isAlreadySaved"
+    >
+      <i class="fa-solid fa-trash"></i>
+      <p>Remove City</p>
+    </div>
   </div>
 </template>
 <script>
 import axios from "axios";
 import { computed } from "vue";
-import { useRoute } from "vue-router";
-import { getWeatherDesc } from "../methods/utils.js";
+import { useRoute, useRouter } from "vue-router";
+import { getWeatherDesc, savedCities } from "../methods/utils.js";
 export default {
   name: "AsyncCity",
   async setup() {
@@ -91,6 +99,7 @@ export default {
     const TIMEZONE = "Asia/Kathmandu";
     const { lat, lon } = route.query;
     const { city, state } = route.params;
+    const router = useRouter();
     const getWeatherData = () => {
       try {
         const weatherData = axios.get(
@@ -108,6 +117,18 @@ export default {
     const weatherDesc = computed(() => {
       return getWeatherDesc(~~weatherData.data.current_weather.weathercode);
     });
+    const isAlreadySaved = computed(() => {
+      return savedCities.some((city) => city.id === route.query.id);
+    });
+    const removeCity = () => {
+      const updatedCities = savedCities.filter(
+        (city) => city.id !== route.query.id
+      );
+      localStorage.setItem("savedCities", JSON.stringify(updatedCities));
+      router.push({
+        name: "home",
+      });
+    };
 
     return {
       weatherData,
@@ -116,6 +137,8 @@ export default {
       state,
       weatherCode,
       weatherDesc,
+      removeCity,
+      isAlreadySaved,
     };
   },
 };

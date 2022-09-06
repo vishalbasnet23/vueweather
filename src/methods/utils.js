@@ -61,4 +61,10 @@ function getWeatherDesc(code) {
   }
 }
 
-export { getWeatherDesc };
+function getUid(latitude, longitude) {
+  return `${latitude}-${longitude}`.replaceAll(".", "-");
+}
+
+const savedCities = JSON.parse(localStorage.getItem("savedCities"));
+
+export { getWeatherDesc, getUid, savedCities };

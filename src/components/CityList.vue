@@ -46,6 +46,7 @@ export default {
         query: {
           lat: cityObj.cords.lat,
           lon: cityObj.cords.lon,
+          id: cityObj.id,
         },
         params: {
           state: cityObj.state,
