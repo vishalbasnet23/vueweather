@@ -91,7 +91,11 @@
 import axios from "axios";
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { getWeatherDesc, savedCities } from "../methods/utils.js";
+import {
+  getWeatherDesc,
+  savedCities,
+  alreadySaved,
+} from "../methods/utils.js";
 export default {
   name: "AsyncCity",
   async setup() {
@@ -118,7 +122,7 @@ export default {
       return getWeatherDesc(~~weatherData.data.current_weather.weathercode);
     });
     const isAlreadySaved = computed(() => {
-      return savedCities.some((city) => city.id === route.query.id);
+      return alreadySaved(route.query.id);
     });
     const removeCity = () => {
       const updatedCities = savedCities.filter(

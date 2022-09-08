@@ -65,6 +65,16 @@ function getUid(latitude, longitude) {
   return `${latitude}-${longitude}`.replaceAll(".", "-");
 }
 
+function alreadySaved(routeId) {
+  const foundObject = savedCities.find((city) => {
+    if (city.id === routeId) {
+      return true;
+    }
+    return false;
+  });
+  return foundObject;
+}
+
 const savedCities = JSON.parse(localStorage.getItem("savedCities"));
 
-export { getWeatherDesc, getUid, savedCities };
+export { getWeatherDesc, getUid, savedCities, alreadySaved };
