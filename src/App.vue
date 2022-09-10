@@ -1,7 +1,13 @@
 <template>
   <div class="flex flex-col min-h-screen font-Roboto bg-primary">
     <SiteNavigation />
-    <RouterView />
+    <RouterView v-slot="{ Component, route }">
+      <Transition name="fade" mode="out-in">
+        <template #default>
+          <component :is="Component" :key="route.path" />
+        </template>
+      </Transition>
+    </RouterView>
   </div>
 </template>
 
@@ -10,4 +16,13 @@ import { RouterView } from "vue-router";
 import SiteNavigation from "./components/SiteNavigation.vue";
 </script>
 
-<style lang="scss" scoped></style>
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

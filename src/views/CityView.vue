@@ -1,10 +1,12 @@
 <template>
-  <Suspense>
-    <AsyncCityView />
-    <template #fallback>
-      <CityViewSkeleton />
-    </template>
-  </Suspense>
+  <div>
+    <Suspense>
+      <AsyncCityView />
+      <template #fallback>
+        <CityViewSkeleton />
+      </template>
+    </Suspense>
+  </div>
 </template>
 
 <script>

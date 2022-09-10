@@ -91,11 +91,7 @@
 import axios from "axios";
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import {
-  getWeatherDesc,
-  savedCities,
-  alreadySaved,
-} from "../methods/utils.js";
+import { getWeatherDesc, savedCities, alreadySaved } from "../methods/utils.js";
 export default {
   name: "AsyncCity",
   async setup() {
