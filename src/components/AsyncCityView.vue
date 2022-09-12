@@ -88,15 +88,18 @@
   </div>
 </template>
 <script>
+import { storeToRefs } from "pinia";
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { getWeatherDesc, savedCities, alreadySaved } from "../methods/utils.js";
+import { getWeatherDesc, savedCities } from "../methods/utils.js";
 import { useWeatherStore } from "../stores/weather";
 export default {
   name: "AsyncCity",
   async setup() {
     const route = useRoute();
-    const { getWeatherData } = useWeatherStore();
+    const weatherStore = useWeatherStore();
+    const { isAlreadySaved } = storeToRefs(weatherStore);
+    const { getWeatherData } = weatherStore;
     const { lat, lon } = route.query;
     const { city, state } = route.params;
     const router = useRouter();
@@ -106,9 +109,6 @@ export default {
     });
     const weatherDesc = computed(() => {
       return getWeatherDesc(~~weatherData.data.current_weather.weathercode);
-    });
-    const isAlreadySaved = computed(() => {
-      return alreadySaved(route.query.id);
     });
     const removeCity = () => {
       const updatedCities = savedCities.filter(

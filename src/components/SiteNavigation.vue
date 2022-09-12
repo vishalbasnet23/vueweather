@@ -15,7 +15,7 @@
           class="fa-solid fa-circle-info text-xl hover:text-secondary duration-150 cursor-pointer"
         />
         <i
-          @click="addCity"
+          @click="addCity()"
           class="fa-solid fa-plus text-xl hover:text-secondary duration-150 cursor-pointer"
         />
       </div>
@@ -54,42 +54,15 @@
 </template>
 
 <script>
-import BaseModal from "./BaseModal.vue";
-import { getUid } from "../methods/utils";
 import { ref } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useWeatherStore } from "../stores/weather";
+import BaseModal from "./BaseModal.vue";
 export default {
   setup() {
     const modalActive = ref(null);
-    const savedCities = ref([]);
-    const route = useRoute();
-    const router = useRouter();
+    const { addCity } = useWeatherStore();
     function toggleModal() {
       modalActive.value = !modalActive.value;
-    }
-    const localStorageSavedCities = localStorage.getItem("savedCities");
-
-    function addCity() {
-      if (localStorageSavedCities) {
-        savedCities.value = JSON.parse(localStorageSavedCities);
-      }
-      const uniqueId = getUid(route.query.lat, route.query.lon);
-
-      const locationObj = {
-        id: uniqueId,
-        state: route.params.state,
-        city: route.params.city,
-        cords: {
-          lat: route.query.lat,
-          lon: route.query.lon,
-        },
-      };
-      savedCities.value.push(locationObj);
-      localStorage.setItem("savedCities", JSON.stringify(savedCities.value));
-      route.query.id = uniqueId;
-      let query = Object.assign({}, route.query);
-      delete query.preview;
-      router.replace({ query });
     }
     return { modalActive, toggleModal, addCity };
   },

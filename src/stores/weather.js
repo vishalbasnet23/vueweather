@@ -1,9 +1,13 @@
 import { defineStore } from "pinia";
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import axios from "axios";
+import { useRoute, useRouter } from "vue-router";
+import { getUid } from "../methods/utils";
 export const useWeatherStore = defineStore("weather", () => {
   const savedCities = ref([]);
-  const TIMEZONE = "Asia/Kathmandu";
+  const router = useRouter();
+  const route = useRoute();
+  const TIMEZONE = ref("Asia/Kathmandu");
   if (localStorage.getItem("savedCities")) {
     savedCities.value = JSON.parse(localStorage.getItem("savedCities"));
   }
@@ -42,5 +46,35 @@ export const useWeatherStore = defineStore("weather", () => {
     }
   }
 
-  return { savedCities, getCities, getWeatherData };
+  function addCity(route) {
+    const uniqueId = getUid(route.query.lat, route.query.lon);
+    const locationObj = {
+      id: uniqueId,
+      state: route.params.state,
+      city: route.params.city,
+      cords: {
+        lat: route.query.lat,
+        lon: route.query.lon,
+      },
+    };
+    savedCities.value.push(locationObj);
+    route.query.id = uniqueId;
+    let query = Object.assign({}, route.query);
+    delete query.preview;
+    router.replace({ query });
+  }
+
+  const isAlreadySaved = computed(() => {
+    const routeId = getUid(route.query.lat, route.query.lon);
+    const found = savedCities.value.find((city) => city.id === routeId);
+    return found ? true : false;
+  });
+
+  return {
+    savedCities,
+    getCities,
+    getWeatherData,
+    addCity,
+    isAlreadySaved,
+  };
 });

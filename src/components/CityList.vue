@@ -16,7 +16,7 @@ import { useWeatherStore } from "../stores/weather";
 export default {
   name: "CityList",
   async setup() {
-    const { getCities, savedCities } = useWeatherStore()
+    const { getCities, savedCities } = useWeatherStore();
     const router = useRouter();
     await getCities();
     const goToCityView = (cityObj) => {
