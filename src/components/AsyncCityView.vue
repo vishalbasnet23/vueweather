@@ -88,29 +88,19 @@
   </div>
 </template>
 <script>
-import axios from "axios";
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { getWeatherDesc, savedCities, alreadySaved } from "../methods/utils.js";
+import { useWeatherStore } from "../stores/weather";
 export default {
   name: "AsyncCity",
   async setup() {
     const route = useRoute();
-    const TIMEZONE = "Asia/Kathmandu";
+    const { getWeatherData } = useWeatherStore();
     const { lat, lon } = route.query;
     const { city, state } = route.params;
     const router = useRouter();
-    const getWeatherData = () => {
-      try {
-        const weatherData = axios.get(
-          `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,rain_sum,showers_sum,precipitation_sum,sunrise,sunset,weathercode&timezone=${TIMEZONE}&current_weather=true`
-        );
-        return weatherData;
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    const weatherData = await getWeatherData();
+    const weatherData = await getWeatherData(lat, lon);
     const weatherCode = computed(() => {
       return weatherData.data.current_weather.weathercode;
     });
