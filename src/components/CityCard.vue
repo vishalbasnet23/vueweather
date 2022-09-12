@@ -1,5 +1,7 @@
 <template>
-  <div class="flex py-6 px-3 bg-secondary rounded-md shadow-md cursor-pointer">
+  <div
+    class="flex py-6 px-3 bg-secondary rounded-md shadow-md cursor-pointer my-2"
+  >
     <div class="flex flex-col flex-1">
       <h1 class="text-3xl">{{ props.city.city }}</h1>
       <h3>{{ props.city.state }}</h3>
