@@ -4,7 +4,7 @@
       <input
         type="text"
         placeholder="Search"
-        @input="getSearchResults"
+        @input="getCityDropDown(searchQuery)"
         v-model="searchQuery"
         class="py=2 px-1 w-full bg-transparent border-b focus:border-secondary focus:outline-none focus:shadow-[0px_1px_0_0_#004E71]"
       />
@@ -42,35 +42,16 @@
 </template>
 <script>
 import { ref } from "vue";
-import axios from "axios";
 import { useRouter } from "vue-router";
 import CityList from "../components/CityList.vue";
 import CityCardSkeleton from "../components/CityCardSkeleton.vue";
+import { useCitiesStore } from "../stores/cities";
 export default {
   setup() {
     const router = useRouter();
     const searchQuery = ref("");
-    const searchResults = ref(null);
-    const queryTimeOut = ref(null);
-    const searchError = ref(null);
-    function getSearchResults() {
-      clearTimeout(queryTimeOut.value);
-      queryTimeOut.value = setTimeout(async () => {
-        if (searchQuery.value !== "") {
-          try {
-            const result = await axios.get(
-              `http://api.positionstack.com/v1/forward?access_key=71c87c2d5233412bc09bd8e2b61c8e8e&query=${searchQuery.value}&fields=results.label`
-            );
-            searchResults.value = result.data.data;
-            searchError.value = null;
-          } catch (error) {
-            searchError.value = true;
-          }
-          return;
-        }
-        searchResults.value = null;
-      }, 300);
-    }
+   
+    const { getCityDropDown } = useCitiesStore();
     function previewCity(selectedResult) {
       const [city, state] = selectedResult.label.split(",");
       router.push({
@@ -84,10 +65,8 @@ export default {
       });
     }
     return {
-      getSearchResults,
+      getCityDropDown,
       searchQuery,
-      searchResults,
-      searchError,
       previewCity,
     };
   },
