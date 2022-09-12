@@ -16,7 +16,13 @@
         />
         <i
           @click="addCity()"
-          class="fa-solid fa-plus text-xl hover:text-secondary duration-150 cursor-pointer"
+          :class="
+            !isAlreadySaved && route.name !== 'home'
+              ? `fa-solid fa-plus text-xl hover:text-secondary duration-150
+        cursor-pointer`
+              : `fa-solid fa-plus text-xl text-secondary duration-150
+        cursor-disabled`
+          "
         />
       </div>
       <BaseModal :modalActive="modalActive" @close-modal="toggleModal">
@@ -54,17 +60,22 @@
 </template>
 
 <script>
+import { storeToRefs } from "pinia";
 import { ref } from "vue";
+import { useRoute } from "vue-router";
 import { useWeatherStore } from "../stores/weather";
 import BaseModal from "./BaseModal.vue";
 export default {
   setup() {
+    const route = useRoute();
     const modalActive = ref(null);
-    const { addCity } = useWeatherStore();
+    const weatherStore = useWeatherStore();
+    const { isAlreadySaved } = storeToRefs(weatherStore);
+    const { addCity } = weatherStore;
     function toggleModal() {
       modalActive.value = !modalActive.value;
     }
-    return { modalActive, toggleModal, addCity };
+    return { modalActive, toggleModal, addCity, isAlreadySaved, route };
   },
   components: { BaseModal },
 };

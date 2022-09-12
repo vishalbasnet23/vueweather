@@ -47,6 +47,9 @@ export const useWeatherStore = defineStore("weather", () => {
   }
 
   function addCity() {
+    if (isAlreadySaved.value || route.name === "home") {
+      return false;
+    }
     const uniqueId = getUid(route.query.lat, route.query.lon);
     const locationObj = {
       id: uniqueId,
