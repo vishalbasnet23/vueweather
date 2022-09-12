@@ -10,12 +10,15 @@
       />
       <ul
         class="absolute bg-secondary text-white w-full shadow-md py-2 px-1 top-[66px]"
-        v-if="searchResults"
+        v-if="cityData.length > 0"
       >
         <p class="py-2" v-if="searchError">
           Sorry, something went wrong, please try again
         </p>
-        <p class="py-2" v-if="!searchError && cityData.length === 0">
+        <p
+          class="py-2"
+          v-if="!searchError && cityData.length <= 0 && searchTriggered"
+        >
           No results match your query, try a different term.
         </p>
         <template v-else>
@@ -54,7 +57,8 @@ export default {
     const cityStore = useCitiesStore();
     cityStore.$reset;
 
-    const { searchResults, searchError, cityData } = storeToRefs(cityStore);
+    const { searchResults, searchError, cityData, searchTriggered } =
+      storeToRefs(cityStore);
     const { getCityDropDown } = cityStore;
     function previewCity(selectedResult) {
       const [city, state] = selectedResult.formatted.split(",");
@@ -75,6 +79,7 @@ export default {
       searchResults,
       searchError,
       cityData,
+      searchTriggered,
     };
   },
   components: {
