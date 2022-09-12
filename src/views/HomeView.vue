@@ -55,8 +55,7 @@ export default {
     const router = useRouter();
     const searchQuery = ref("");
     const cityStore = useCitiesStore();
-    cityStore.$reset;
-
+    cityStore.$reset();
     const { searchResults, searchError, cityData, searchTriggered } =
       storeToRefs(cityStore);
     const { getCityDropDown } = cityStore;
