@@ -99,10 +99,9 @@ export default {
     const route = useRoute();
     const weatherStore = useWeatherStore();
     const { isAlreadySaved } = storeToRefs(weatherStore);
-    const { getWeatherData } = weatherStore;
+    const { getWeatherData, removeCity } = weatherStore;
     const { lat, lon } = route.query;
     const { city, state } = route.params;
-    const router = useRouter();
     const weatherData = await getWeatherData(lat, lon);
     const weatherCode = computed(() => {
       return weatherData.data.current_weather.weathercode;
@@ -110,15 +109,6 @@ export default {
     const weatherDesc = computed(() => {
       return getWeatherDesc(~~weatherData.data.current_weather.weathercode);
     });
-    const removeCity = () => {
-      const updatedCities = savedCities.filter(
-        (city) => city.id !== route.query.id
-      );
-      localStorage.setItem("savedCities", JSON.stringify(updatedCities));
-      router.push({
-        name: "home",
-      });
-    };
 
     return {
       weatherData,

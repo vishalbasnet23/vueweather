@@ -46,7 +46,7 @@ export const useWeatherStore = defineStore("weather", () => {
     }
   }
 
-  function addCity(route) {
+  function addCity() {
     const uniqueId = getUid(route.query.lat, route.query.lon);
     const locationObj = {
       id: uniqueId,
@@ -70,11 +70,23 @@ export const useWeatherStore = defineStore("weather", () => {
     return found ? true : false;
   });
 
+  function removeCity() {
+    const updatedCities = savedCities.value.filter(
+      (city) => city.id !== route.query.id
+    );
+    savedCities.value = updatedCities;
+    // localStorage.setItem("savedCities", JSON.stringify(updatedCities));
+    router.push({
+      name: "home",
+    });
+  }
+
   return {
     savedCities,
     getCities,
     getWeatherData,
     addCity,
     isAlreadySaved,
+    removeCity,
   };
 });
