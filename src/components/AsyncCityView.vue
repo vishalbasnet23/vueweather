@@ -90,8 +90,8 @@
 <script>
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { getWeatherDesc, savedCities } from "../methods/utils.js";
+import { useRoute } from "vue-router";
+import { getWeatherDesc } from "../methods/utils.js";
 import { useWeatherStore } from "../stores/weather";
 export default {
   name: "AsyncCity",
