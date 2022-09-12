@@ -4,7 +4,7 @@
       <input
         type="text"
         placeholder="Search"
-        @input="getCityDropDown(searchQuery)"
+        @input="getCityDropDown"
         v-model="searchQuery"
         class="py=2 px-1 w-full bg-transparent border-b focus:border-secondary focus:outline-none focus:shadow-[0px_1px_0_0_#004E71]"
       />
@@ -15,17 +15,17 @@
         <p class="py-2" v-if="searchError">
           Sorry, something went wrong, please try again
         </p>
-        <p class="py-2" v-if="!searchError && searchResults.length === 0">
+        <p class="py-2" v-if="!searchError && cityData.length === 0">
           No results match your query, try a different term.
         </p>
         <template v-else>
           <li
-            v-for="(searchResultValue, searchResultKey) in searchResults"
-            :key="searchResultKey"
+            v-for="(cityDataValue, cityDataKey) in cityData"
+            :key="cityDataKey"
             class="py-2 cursor-pointer"
-            @click="previewCity(searchResultValue)"
+            @click="previewCity(cityDataValue)"
           >
-            {{ searchResultValue.label }}
+            {{ cityDataValue.formatted }}
           </li>
         </template>
       </ul>
@@ -43,6 +43,7 @@
 <script>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
 import CityList from "../components/CityList.vue";
 import CityCardSkeleton from "../components/CityCardSkeleton.vue";
 import { useCitiesStore } from "../stores/cities";
@@ -50,10 +51,13 @@ export default {
   setup() {
     const router = useRouter();
     const searchQuery = ref("");
-   
-    const { getCityDropDown } = useCitiesStore();
+    const cityStore = useCitiesStore();
+    cityStore.$reset;
+
+    const { searchResults, searchError, cityData } = storeToRefs(cityStore);
+    const { getCityDropDown } = cityStore;
     function previewCity(selectedResult) {
-      const [city, state] = selectedResult.label.split(",");
+      const [city, state] = selectedResult.formatted.split(",");
       router.push({
         name: "city",
         params: { state: state.trim(), city: city.trim() },
@@ -68,6 +72,9 @@ export default {
       getCityDropDown,
       searchQuery,
       previewCity,
+      searchResults,
+      searchError,
+      cityData,
     };
   },
   components: {
