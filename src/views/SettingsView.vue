@@ -17,22 +17,12 @@
               placeholder="Full Name"
             />
           </div>
-          <div class="md:w-100 px-3">
-            <label
-              class="uppercase tracking-wide text-white text-l font-bold mb-2"
-              for="select-timezone"
-            >
-              Select Timezone
-            </label>
-            <select
-              class="w-full bg-gray-200 border border-gray-200 text-black text-l py-3 px-4 pr-8 mb-3 rounded"
-              id="select-timezone"
-            >
-              <option>Abuja</option>
-              <option>Enugu</option>
-              <option>Lagos</option>
-            </select>
-          </div>
+          <Suspense>
+            <TimeZoneDropDown />
+            <template #fallback>
+              <AnimatedPlaceHolder class="max-w-[300px] w-full mb-2"/>
+            </template>
+          </Suspense>
           <div class="md:w-100 px-3">
             <label
               class="uppercase tracking-wide text-white text-l font-bold mb-2"
@@ -62,3 +52,12 @@
     </div>
   </main>
 </template>
+<script>
+import TimeZoneDropDown from "../components/TimeZoneDropDown.vue";
+import AnimatedPlaceHolder from "../components/AnimatedPlaceHolder.vue";
+export default {
+  name: "SettingsView",
+  setup() {},
+  components: { TimeZoneDropDown, AnimatedPlaceHolder },
+};
+</script>
