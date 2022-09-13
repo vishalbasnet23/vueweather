@@ -47,7 +47,7 @@ export const useWeatherStore = defineStore("weather", () => {
   }
 
   function addCity() {
-    if (isAlreadySaved.value || route.name === "home") {
+    if (isAlreadySaved.value || route.name !== "city") {
       return false;
     }
     const uniqueId = getUid(route.query.lat, route.query.lon);
@@ -78,7 +78,6 @@ export const useWeatherStore = defineStore("weather", () => {
       (city) => city.id !== route.query.id
     );
     savedCities.value = updatedCities;
-    // localStorage.setItem("savedCities", JSON.stringify(updatedCities));
     router.push({
       name: "home",
     });

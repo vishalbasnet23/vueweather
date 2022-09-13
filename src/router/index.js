@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import CityView from "../views/CityView.vue";
+import SettingsView from "../views/SettingsView.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -18,6 +19,14 @@ const router = createRouter({
       component: CityView,
       meta: {
         title: "City Weather",
+      },
+    },
+    {
+      path: "/settings",
+      name: "settings",
+      component: SettingsView,
+      meta: {
+        title: "Settings",
       },
     },
   ],

@@ -17,7 +17,7 @@
         <i
           @click="addCity()"
           :class="
-            !isAlreadySaved && route.name !== 'home'
+            !isAlreadySaved && route.name === 'city'
               ? `fa-solid fa-plus text-xl hover:text-secondary duration-150
         cursor-pointer`
               : `fa-solid fa-plus text-xl text-secondary duration-150
