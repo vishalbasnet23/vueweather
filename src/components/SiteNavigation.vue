@@ -24,6 +24,10 @@
         cursor-disabled`
           "
         />
+        <router-link to="/settings">
+          <i
+            class="fa-solid fa-gear text-xl hover:text-secondary duration-150 cursor-pointer"
+        /></router-link>
       </div>
       <BaseModal :modalActive="modalActive" @close-modal="toggleModal">
         <div class="text-black">
