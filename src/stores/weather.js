@@ -44,7 +44,7 @@ export const useWeatherStore = defineStore("weather", () => {
       const { userData } = storeToRefs(userDataStore);
       const { timezone, tempUni } = userData.value;
       const weatherData = axios.get(
-        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,rain_sum,showers_sum,precipitation_sum,sunrise,sunset,weathercode&tim1ezone=${timezone}&current_weather=true&temperature_unit=${tempUni}`
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,rain_sum,showers_sum,precipitation_sum,sunrise,sunset,weathercode&timezone=${timezone}&current_weather=true&temperature_unit=${tempUni}`
       );
       return weatherData;
     } catch (error) {
