@@ -1,13 +1,15 @@
 import axios from "axios";
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 export const useSettingsStore = defineStore("settings", () => {
   const userData = ref({
     fullName: "",
     timezone: "Asia/Kathmandu",
     tempUni: "celsius",
+    firstTime: true,
   });
+
   if (localStorage.getItem("userData")) {
     userData.value = JSON.parse(localStorage.getItem("userData"));
   }
@@ -22,8 +24,11 @@ export const useSettingsStore = defineStore("settings", () => {
   }
 
   function saveSettings() {
+    userData.value.firstTime = false;
     localStorage.setItem("userData", JSON.stringify(userData.value));
   }
 
-  return { getTimeZones, userData, saveSettings };
+  const isFirstTime = computed(() => userData.value.firstTime);
+
+  return { getTimeZones, userData, saveSettings, isFirstTime };
 });
