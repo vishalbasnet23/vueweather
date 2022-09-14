@@ -1,6 +1,6 @@
 import axios from "axios";
 import { defineStore } from "pinia";
-import { watch, ref } from "vue";
+import { ref } from "vue";
 
 export const useSettingsStore = defineStore("settings", () => {
   const userData = ref({
@@ -8,13 +8,9 @@ export const useSettingsStore = defineStore("settings", () => {
     timezone: "Asia/Kathmandu",
     tempUni: "celsius",
   });
-  watch(
-    userData,
-    (userData) => {
-      localStorage.setItem("userData", JSON.stringify(userData));
-    },
-    { deep: true }
-  );
+  if (localStorage.getItem("userData")) {
+    userData.value = JSON.parse(localStorage.getItem("userData"));
+  }
 
   function getTimeZones() {
     try {
@@ -26,7 +22,7 @@ export const useSettingsStore = defineStore("settings", () => {
   }
 
   function saveSettings() {
-    console.log(userData.value);
+    localStorage.setItem("userData", JSON.stringify(userData.value));
   }
 
   return { getTimeZones, userData, saveSettings };

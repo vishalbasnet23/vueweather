@@ -19,7 +19,7 @@
             />
           </div>
           <Suspense>
-            <TimeZoneDropDown v-model="settingsStore.userData.timezone"/>
+            <TimeZoneDropDown v-model="settingsStore.userData.timezone" />
             <template #fallback>
               <AnimatedPlaceHolder class="max-w-[300px] w-full mb-2" />
             </template>
