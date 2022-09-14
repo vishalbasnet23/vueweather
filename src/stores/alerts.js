@@ -8,9 +8,11 @@ export const useAlertStore = defineStore("alertStore", () => {
   const success = ref({
     message: "",
   });
+
   const errorMessage = computed(() => {
     return errors.value.message;
   });
+
   const successMessage = computed(() => {
     return success.value.message;
   });
@@ -23,5 +25,28 @@ export const useAlertStore = defineStore("alertStore", () => {
     success.value.message = successMsg;
   }
 
-  return { successMessage, errorMessage, setError, setSuccess };
+  function clearError() {
+    if (errors.value.message.length > 0) {
+      setTimeout(() => {
+        errors.value.message = "";
+      }, 5000);
+    }
+  }
+
+  function clearSuccess() {
+    if (success.value.message.length > 0) {
+      setTimeout(() => {
+        success.value.message = "";
+      }, 5000);
+    }
+  }
+
+  return {
+    successMessage,
+    errorMessage,
+    setError,
+    setSuccess,
+    clearError,
+    clearSuccess,
+  };
 });

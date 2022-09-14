@@ -1,6 +1,7 @@
 import axios from "axios";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
+import { useAlertStore } from "./alerts";
 
 export const useSettingsStore = defineStore("settings", () => {
   const userData = ref({
@@ -26,6 +27,9 @@ export const useSettingsStore = defineStore("settings", () => {
   function saveSettings() {
     userData.value.firstTime = false;
     localStorage.setItem("userData", JSON.stringify(userData.value));
+    const alertStore = useAlertStore();
+    const { setSuccess } = alertStore;
+    setSuccess("Settings saved");
   }
 
   const isFirstTime = computed(() => userData.value.firstTime);

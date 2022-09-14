@@ -93,6 +93,7 @@ import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { getWeatherDesc } from "../methods/utils.js";
 import { useWeatherStore } from "../stores/weather";
+import { useAlertStore } from "../stores/alerts";
 export default {
   name: "AsyncCity",
   async setup() {
@@ -102,24 +103,36 @@ export default {
     const { getWeatherData, removeCity } = weatherStore;
     const { lat, lon } = route.query;
     const { city, state } = route.params;
-    const weatherData = await getWeatherData(lat, lon);
-    const weatherCode = computed(() => {
-      return weatherData.data.current_weather.weathercode;
-    });
-    const weatherDesc = computed(() => {
-      return getWeatherDesc(~~weatherData.data.current_weather.weathercode);
-    });
-
-    return {
-      weatherData,
-      route,
-      city,
-      state,
-      weatherCode,
-      weatherDesc,
-      removeCity,
-      isAlreadySaved,
-    };
+    try {
+      const weatherData = await getWeatherData(lat, lon);
+      const weatherCode = computed(() => {
+        return weatherData.data.current_weather.weathercode;
+      });
+      const weatherDesc = computed(() => {
+        return getWeatherDesc(~~weatherData.data.current_weather.weathercode);
+      });
+      return {
+        weatherData,
+        route,
+        city,
+        state,
+        weatherCode,
+        weatherDesc,
+        removeCity,
+        isAlreadySaved,
+      };
+    } catch (error) {
+      const alertStore = useAlertStore();
+      const { setError } = alertStore;
+      setError(error.message);
+      return {
+        route,
+        city,
+        state,
+        removeCity,
+        isAlreadySaved,
+      };
+    }
   },
 };
 </script>
