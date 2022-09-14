@@ -6,11 +6,18 @@ Weather Data is fetched from [open-meteo](https://open-meteo.com) as they do not
 
 * Weather Icons used is by [Erikflowers](https://erikflowers.github.io/weather-icons/). Which I am actually planning on replacing with more colorful SVG Icons.
 
+* LocalStorage for storing userData
+
+* Setting page for users to set [Timezone](http://worldtimeapi.org) and Temperature Unit.
+
+
+
 ## Todo
 - [ ] Replace icons with more colorful icons
 - [x] Integrate Pinia
 - [ ] PWA
 - [ ] Complete rewrite in TypeScript
+- [ ] Welcome Screen for first time users
 
 ## Recommended IDE Setup
 
