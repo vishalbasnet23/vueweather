@@ -1,4 +1,4 @@
-# weatherapp
+# [weatherapp](https://heartfelt-biscochitos-d46cb1.netlify.app/)
 
 * Weather Application built with Vue Composition API and Tailwind CSS.
 Weather Data is fetched from [open-meteo](https://open-meteo.com) as they do not require any API Keys or anything and provide all sort of weather data.
@@ -8,7 +8,7 @@ Weather Data is fetched from [open-meteo](https://open-meteo.com) as they do not
 
 * LocalStorage for storing userData
 
-* Setting page for users to set [Timezone](http://worldtimeapi.org) and Temperature Unit.
+* Setting page for users to set [Timezone]~~(http://worldtimeapi.org)~~ (https://timezonedb.com) and Temperature Unit.
 
 
 
