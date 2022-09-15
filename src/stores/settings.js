@@ -17,7 +17,9 @@ export const useSettingsStore = defineStore("settings", () => {
 
   function getTimeZones() {
     try {
-      const timezoneResult = axios.get(`https://worldtimeapi.org/api/timezone`);
+      const timezoneResult = axios.get(
+        `https://api.timezonedb.com/v2.1/list-time-zone?key=2JB3DINZL706&format=json`
+      );
       return timezoneResult;
     } catch (error) {
       console.log(error);

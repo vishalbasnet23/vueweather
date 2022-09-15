@@ -36,7 +36,7 @@ export default {
     const settingsStore = useSettingsStore();
     const { getTimeZones } = settingsStore;
     const timezonesResult = await getTimeZones();
-    const timezones = timezonesResult.data;
+    const timezones = timezonesResult.data.zones.map((zone) => zone.zoneName);
     const updateValue = (event) => {
       context.emit("update:modelValue", event.target.value);
     };
