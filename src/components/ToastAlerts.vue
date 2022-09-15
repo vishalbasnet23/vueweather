@@ -5,7 +5,7 @@
         type="button"
         @click="closeToast()"
         v-show="toastOpen"
-        :class="`fixed bottom-4 right-4 z-50 rounded-md bg-${type}-500 px-4 py-2 text-white transition hover:bg-${type}-600`"
+        :class="`fixed bottom-4 right-4 z-50 rounded-md ${type.class} px-4 py-2 text-white transition hover:${type.hover}`"
       >
         <div class="flex items-center space-x-2">
           <span class="text-xl"><i class="fa fa-check"></i></span>
@@ -22,7 +22,10 @@ import { useAlertStore } from "../stores/alerts";
 export default {
   setup() {
     const toastOpen = ref(false);
-    const type = ref("green");
+    const type = ref({
+      class: "bg-green-500",
+      hover: "bg-green-600",
+    });
     const message = ref("");
     const alertStore = useAlertStore();
     const { errorMessage, successMessage } = storeToRefs(alertStore);
@@ -31,7 +34,8 @@ export default {
     watch(errorMessage, () => {
       if (errorMessage.value.length > 0) {
         toastOpen.value = true;
-        type.value = "red";
+        type.value.class = "bg-red-500";
+        type.value.hover = "bg-red-600";
         message.value = errorMessage.value;
         clearError();
         setTimeout(() => {
@@ -43,7 +47,8 @@ export default {
     watch(successMessage, () => {
       if (successMessage.value.length > 0) {
         toastOpen.value = true;
-        type.value = "green";
+        type.value.class = "bg-green-500";
+        type.value.hover = "bg-green-600";
         message.value = successMessage.value;
         clearSuccess();
         setTimeout(() => {
