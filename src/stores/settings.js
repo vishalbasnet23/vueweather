@@ -27,11 +27,14 @@ export const useSettingsStore = defineStore("settings", () => {
   }
 
   function saveSettings() {
-    userData.value.firstTime = false;
     localStorage.setItem("userData", JSON.stringify(userData.value));
     const alertStore = useAlertStore();
     const { setSuccess } = alertStore;
     setSuccess("Settings saved");
+    if (isFirstTime.value) {
+      this.$router.push({ name: "home" });
+      userData.value.firstTime = false;
+    }
   }
 
   const isFirstTime = computed(() => userData.value.firstTime);
