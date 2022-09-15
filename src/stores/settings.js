@@ -17,7 +17,7 @@ export const useSettingsStore = defineStore("settings", () => {
 
   function getTimeZones() {
     try {
-      const timezoneResult = axios.get(`http://worldtimeapi.org/api/timezone`);
+      const timezoneResult = axios.get(`https://worldtimeapi.org/api/timezone`);
       return timezoneResult;
     } catch (error) {
       console.log(error);
